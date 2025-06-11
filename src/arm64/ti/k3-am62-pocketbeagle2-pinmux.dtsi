@@ -120,6 +120,32 @@
 		>;
 	};
 
+	P2_25_B14_spi: P2-25-B14-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01c4, PIN_INPUT, 0) /* (B14) SPI0_D1 */
+		>;
+	};
+
+	P2_27_B13_spi: P2-27-B13-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01c0, PIN_OUTPUT, 0) /* (B13) SPI0_D0 */
+		>;
+	};
+
+	P2_29_A14_spi: P2-29-A14-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01bc, PIN_INPUT, 0) /* (A14) SPI0_CLK */
+			AM62X_IOPAD(0x00A4, PIN_DISABLE, 7) /* (M22) GPMC0_DIR.GPIO0_40 */
+		>;
+	};
+
+	P2_31_A13_spi: P2-31-A13-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01b4, PIN_OUTPUT, 0) /* (A13) SPI0_CS0 */
+			AM62X_IOPAD(0x0170, PIN_DISABLE, 7) /* (AA18) RGMII2_TD1.GPIO0_90 */
+		>;
+	};
+
 	mspm0_nrst_pins_default: mspm0-nrst-default-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x0254, PIN_INPUT, 7) /* (C20) USB0_DRVVBUS.GPIO1_50 */
@@ -238,6 +264,12 @@
 		>;
 	};
 
+	P1_26_K24_i2c: P1-26-K24-i2c-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00b4, PIN_INPUT_PULLUP, 1) /* (K24) GPMC0_CSn3.I2C2_SDA */
+		>;
+	};
+
 	P1_27_gpio: P1-27-gpio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x0184, PIN_INPUT, 7) /* (AE23) RGMII2_RD0.GPIO1_3 */
@@ -247,6 +279,12 @@
 	P1_28_K22_gpio: P1-28-K22-gpio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x00B0, PIN_INPUT, 7) /* (K22) GPMC0_CSn2.GPIO0_43 */
+		>;
+	};
+
+	P1_28_K22_i2c: P1-28-K22-i2c-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00b0, PIN_INPUT_PULLUP, 1) /* (K22) GPMC0_CSn2.I2C2_SCL */
 		>;
 	};
 
@@ -661,12 +699,12 @@
 
 &main_spi0 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_spi0_pins_default>;
+
+	spi-bus-extension@0 {
+		spi-bus = <&pocketbeagle2_connector_spi0>;
+	};
 };
 
 &ecap2 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&ecap2_pins_default>;
 };

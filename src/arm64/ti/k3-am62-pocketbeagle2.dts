@@ -194,6 +194,91 @@
 			bootph-all;
 		};
 	};
+
+	pocketbeagle_connector: pocketbeagle-connector {
+		status = "okay";
+		compatible = "pocketbeagle2-connector";
+		i2c-eeprom = <&main_i2c2>;
+
+		#gpio-cells = <2>;
+		gpio-map = 
+			<2 0 &main_gpio0 87 0>, <3 0 &main_gpio1 51 0>,
+			<4 0 &main_gpio1 12 0>, <6 0 &main_gpio0 78 0>,
+			<8 0 &main_gpio1 14 0>, <10 0 &main_gpio1 30 0>,
+			<12 0 &main_gpio0 77 0>, <13 0 &main_gpio0 36 0>,
+			<19 0 &main_gpio1 1 0>, <20 0 &main_gpio0 50 0>,
+			<21 0 &main_gpio1 6 0>, <23 0 &main_gpio1 5 0>,
+			<25 0 &main_gpio1 4 0>, <26 0 &main_gpio0 44 0>,
+			<27 0 &main_gpio1 3 0>, <28 0 &main_gpio0 43 0>,
+			<29 0 &main_gpio0 62 0>, <30 0 &main_gpio1 21 0>,
+			<31 0 &main_gpio0 59 0>, <32 0 &main_gpio1 20 0>,
+			<33 0 &main_gpio0 56 0>, <34 0 &main_gpio1 2 0>,
+			<35 0 &main_gpio0 88 0>, <36 0 &main_gpio0 55 0>,
+			<37 0 &main_gpio0 86 0>, <38 0 &main_gpio0 45 0>,
+			<39 0 &main_gpio1 9 0>, <40 0 &main_gpio0 46 0>,
+			<41 0 &main_gpio1 24 0>, <42 0 &main_gpio0 47 0>,
+			<43 0 &main_gpio1 25 0>, <44 0 &main_gpio0 48 0>,
+			<45 0 &main_gpio1 22 0>, <46 0 &main_gpio0 91 0>,
+			<47 0 &main_gpio1 23 0>, <53 0 &main_gpio0 64 0>,
+			<54 0 &main_gpio0 53 0>, <55 0 &main_gpio1 0 0>,
+			<56 0 &main_gpio0 49 0>, <58 0 &main_gpio0 63 0>,
+			<60 0 &main_gpio0 51 0>, <61 0 &main_gpio1 19 0>,
+			<63 0 &main_gpio1 18 0>, <64 0 &main_gpio0 61 0>,
+			<65 0 &main_gpio0 40 0>, <66 0 &main_gpio0 58 0>,
+			<67 0 &main_gpio0 90 0>, <68 0 &main_gpio0 57 0>,
+			<69 0 &main_gpio0 52 0>, <70 0 &main_gpio0 60 0>,
+			<71 0 &main_gpio0 54 0>, <72 0 &main_gpio1 16 0>;
+		gpio-map-mask = <0xffff 0x0>;
+		gpio-map-pass-thru = <0x0 0x1>;
+
+		#pwm-cells = <3>;
+		pwm-map = 
+			<33 0 0 &epwm2 1 0 0>, <36 0 0 &epwm2 0 0 0>,
+			<37 0 0 &ecap2 0 0 0>;
+		pwm-map-mask = <0xffff 0 0>;
+		pwm-map-pass-thru = <0 0xffff 0xf>;
+
+		pocketbeagle2_connector_i2c2: pocketbeagle2-connector-i2c2 {
+			i2c-parent = <&main_i2c2>;
+			#address-cells = <1>;
+        		#size-cells = <0>;
+		};
+
+		pocketbeagle2_connector_spi0: pocketbeagle2-connector-spi0 {
+			spi-parent = <&main_spi0>;
+			#address-cells = <1>;
+        		#size-cells = <0>;
+		};
+
+		export-symbols {
+			P1_04_GPIO_PINMUX = <&P1_04_D20_gpio>;
+			P1_29_GPIO_PINMUX = <&P1_29_gpio>;
+			P1_31_GPIO_PINMUX = <&P1_31_gpio>;
+			P1_33_PWM_PINMUX = <&P1_33_A17_pwm>;
+			P1_35_GPIO_PINMUX = <&P1_35_gpio>;
+			P1_36_PWM_PINMUX = <&epwm2_pins_default>;
+
+			P2_01_PWM_PINMUX = <&ecap2_pins_default>;
+			P2_02_GPIO_PINMUX = <&P2_02_gpio>;
+			P2_03_GPIO_PINMUX = <&P2_03_B18_gpio>;
+			P2_04_GPIO_PINMUX = <&P2_04_gpio>;
+			P2_06_GPIO_PINMUX = <&P2_06_gpio>;
+			P2_08_GPIO_PINMUX = <&P2_08_gpio>;
+			P2_18_GPIO_PINMUX = <&P2_18_gpio>;
+			P2_20_GPIO_PINMUX = <&P2_20_gpio>;
+			P2_22_GPIO_PINMUX = <&P2_22_gpio>;
+			P2_24_GPIO_PINMUX = <&P2_24_gpio>;
+			P2_25_SPI_PINMUX = <&P2_25_B14_spi>;
+			P2_27_SPI_PINMUX = <&P2_27_B13_spi>;
+			P2_29_SPI_PINMUX = <&P2_29_A14_spi>;
+			P2_30_GPIO_PINMUX = <&P2_30_gpio>;
+			P2_31_SPI_PINMUX = <&P2_31_A13_spi>;
+			P2_33_GPIO_PINMUX = <&P2_33_gpio>;
+
+			gpio_connector = <&pocketbeagle_connector>;
+			pwm_connector = <&pocketbeagle_connector>;
+		};
+	};
 };
 
 &main_pmx0 {
@@ -299,7 +384,6 @@
 &epwm2 {
 	status = "okay";
 	pinctrl-names = "default";
-	pinctrl-0 = <&epwm2_pins_default>;
 };
 
 &mailbox0_cluster0 {
@@ -311,14 +395,12 @@
 
 &main_uart0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&main_uart0_pins_default>;
 	bootph-all;
 	status = "okay";
 };
 
 &main_uart1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&main_uart1_pins_default>;
 	bootph-pre-ram;
 	status = "reserved";
 };
